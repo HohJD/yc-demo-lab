@@ -27,6 +27,7 @@ const ARCHIVE_LOADERS: Record<string, () => Promise<{ default: Record<string, Co
   "Summer 2025": () => import("./archive/summer-2025"),
   "Spring 2025": () => import("./archive/spring-2025"),
   "Winter 2025": () => import("./archive/winter-2025"),
+  "Summer 2024": () => import("./archive/summer-2024"),
 };
 
 for (const d of ARCHIVE_DEMOS) {
