@@ -22,6 +22,7 @@ export const DEMO_COMPONENTS: Record<string, ComponentType> = {
 const ARCHIVE_LOADERS: Record<string, () => Promise<{ default: Record<string, ComponentType> }>> = {
   "Fall 2026": () => import("./archive/fall-2026"),
   "Summer 2026": () => import("./archive/summer-2026"),
+  "Spring 2026": () => import("./archive/spring-2026"),
 };
 
 for (const d of ARCHIVE_DEMOS) {
