@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "playwright test",
+    "docs": "npx -y tsx scripts/gen-docs.ts"
   },
   "dependencies": {
     "@xyflow/react": "^12.12.0",

@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# YC Startup Demo Lab
 
-## Getting Started
+An **unofficial** gallery of interactive demos — one for every request in Y Combinator's Requests for Startups (https://www.ycombinator.com/rfs). Not affiliated with or endorsed by Y Combinator; product names are fictional.
 
-First, run the development server:
+- 107 requests across 9 editions (Winter 2027 → Summer 2024), each with a route at `/demos/<slug>`.
+- Every demo is labelled **Real prototype**, **Simulation** or **Concept demo**, with explicit limitations and a production roadmap.
+- See [`YC_RFS_INVENTORY.md`](YC_RFS_INVENTORY.md) and [`MORNING_REPORT.md`](MORNING_REPORT.md).
+
+## Run locally
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev            # http://localhost:3000
+# or production
+npm run build && npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Checks
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run lint
+npx tsc --noEmit
+npm run build
+npx playwright install chromium   # first time only
+npm start &                       # tests hit http://localhost:3000 (override with BASE_URL)
+npm test                          # desktop + mobile (Pixel 7) projects
+npm run docs                      # regenerate YC_RFS_INVENTORY.md + data/stats.json
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Layout
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `lib/rfs.ts` — scraped RFS catalog (title, author, excerpt, source URL)
+- `lib/demos-w27.ts`, `lib/archive/*.ts` — demo metadata (problem, solution, level, limitations, startup analysis)
+- `components/demos/*.tsx` — bespoke Winter 2027 demos
+- `components/demos/kit/engines.tsx` — reusable engines (QueueTriage, ModelCalculator, AgentPipeline, WeightedRanker, ExplainableScorer) used by archive demos in `components/demos/archive/*.tsx`
+- `components/demos/registry.tsx` — slug → lazily loaded component
+- `tests/` — Playwright: every route, every primary interaction, desktop + mobile
