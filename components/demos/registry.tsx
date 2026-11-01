@@ -1,6 +1,7 @@
 "use client";
 import dynamic from "next/dynamic";
 import type { ComponentType } from "react";
+import { ARCHIVE_DEMOS } from "@/lib/demos-archive";
 
 const loading = () => <div className="h-64 animate-pulse rounded-xl border border-line bg-panel" />;
 
@@ -17,3 +18,13 @@ export const DEMO_COMPONENTS: Record<string, ComponentType> = {
   "ai-for-the-air-gapped-economy": dynamic(() => import("./bunker"), { ssr: false, loading }),
   "own-your-intelligence": dynamic(() => import("./keystone"), { ssr: false, loading }),
 };
+
+const ARCHIVE_LOADERS: Record<string, () => Promise<{ default: Record<string, ComponentType> }>> = {
+  "Fall 2026": () => import("./archive/fall-2026"),
+};
+
+for (const d of ARCHIVE_DEMOS) {
+  const load = ARCHIVE_LOADERS[d.edition];
+  if (!load) continue;
+  DEMO_COMPONENTS[d.slug] = dynamic(() => load().then((m) => ({ default: m.default[d.slug] ?? (() => <div className="p-6 text-sm text-muted">Demo missing.</div>) })), { ssr: false, loading });
+}
